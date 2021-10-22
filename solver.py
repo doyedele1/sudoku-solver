@@ -17,6 +17,7 @@ def solve(board):
         return True
     else:
         row, column = find
+
     for i in range(1, 10):
         if is_valid(board, i, (row, column)):
             board[row][column] = i
@@ -43,6 +44,7 @@ def is_valid(board, number, position):
     # Check for the 3 X 3 cubes
     box_x = position[1] // 3
     box_y = position[0] // 3
+    
     for i in range(box_y * 3, box_y*3 + 3):
         for j in range(box_x * 3, box_x*3 + 3):
             if board[i][j] == number and (i,j) != position:
@@ -70,7 +72,7 @@ def find_empty(board):
     for i in range(len(board)):
         for j in range(len(board[0])):
             if board[i][j] == 0:
-                return (i, j) # row, column
+                return (i, j) # returns row and column respectively
     return None
 
 
