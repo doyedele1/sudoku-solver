@@ -10,6 +10,53 @@ starting_board = [
     [0,4,9,2,0,6,0,0,7]
 ]
 
+# function to format board printing to the console
+def print_board(board):
+    for i in range(len(board)):
+        if i % 3 == 0 and i != 0:
+            print("- - - - - - - - - - - ")
+
+        for j in range(len(board[0])):
+            if j % 3 == 0 and j != 0:
+                print(" | ", end = "")
+
+            if j == 8:
+                print(board[i][j])
+            else:
+                print(str(board[i][j]) + " ", end = "")
+
+# function to pick empty squares
+def find_empty(board):
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if board[i][j] == 0:
+                return (i, j) # returns row and column respectively
+    return None
+
+# function to try all numbers and find a number that works in a particular position
+def is_valid(board, number, position):
+    # check for row
+    for i in range(len(board[0])):
+        if board[position[0]][i] == number and position[1] != i:
+            return False
+
+    # check for column
+    for i in range(len(board)):
+        if board[i][position[1]] == number and position[0] != i:
+            return False
+
+    # check for the 3 X 3 cubes
+    box_x = position[1] // 3
+    box_y = position[0] // 3
+
+    for i in range(box_y * 3, box_y * 3 + 3):
+        for j in range(box_x * 3, box_x * 3 + 3):
+            if board[i][j] == number and (i,j) != position:
+                return False
+
+    return True
+
+# function to perform the backtracking
 def solve(board):
     # Recursion base case
     find = find_empty(board)
@@ -28,52 +75,6 @@ def solve(board):
             board[row][column] = 0
 
     return False
-
-
-def is_valid(board, number, position):
-    # check for row
-    for i in range(len(board[0])):
-        if board[position[0]][i] == number and position[1] != i:
-            return False
-
-    # Check for column
-    for i in range(len(board)):
-        if board[i][position[1]] == number and position[0] != i:
-            return False
-
-    # Check for the 3 X 3 cubes
-    box_x = position[1] // 3
-    box_y = position[0] // 3
-
-    for i in range(box_y * 3, box_y*3 + 3):
-        for j in range(box_x * 3, box_x*3 + 3):
-            if board[i][j] == number and (i,j) != position:
-                return False
-
-    return True
-
-
-def print_board(board):
-    for i in range(len(board)):
-        if i % 3 == 0 and i != 0:
-            print("- - - - - - - - - - - ")
-
-        for j in range(len(board[0])):
-            if j % 3 == 0 and j != 0:
-                print(" | ", end="")
-
-            if j == 8:
-                print(board[i][j])
-            else:
-                print(str(board[i][j]) + " ", end="")
-
-
-def find_empty(board):
-    for i in range(len(board)):
-        for j in range(len(board[0])):
-            if board[i][j] == 0:
-                return (i, j) # returns row and column respectively
-    return None
 
 
 print_board(starting_board)
